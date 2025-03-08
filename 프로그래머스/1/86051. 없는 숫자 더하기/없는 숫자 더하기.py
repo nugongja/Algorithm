@@ -1,0 +1,1 @@
+solution = lambda numbers: 45 - sum(numbers)
