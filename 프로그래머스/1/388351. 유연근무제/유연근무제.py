@@ -4,19 +4,14 @@ def solution(schedules, timelogs, startday):
 
     for i in range(n):
         schedules[i] += 10
-        if schedules[i] % 100 >= 60:
-            schedules[i] = (schedules[i]//100 + 1)*100 + ((schedules[i]-60)%100)
-    
+        schedules[i] += 40 if schedules[i] % 100 >= 60 else 0
+
     for i in range(n):
-        timelogs[i].pop(7-startday)  # 일요일
-        timelogs[i].pop(6-startday)  # 토요일
-        getPresent = True
-        for log in timelogs[i]:
-            if log > schedules[i]:
-                getPresent = False
-                break
+        answer += all(
+            log <= schedules[i]
+            for j, log in enumerate(timelogs[i])
+            if j != (6-startday+7)%7 and j != 7-startday)
         
-        if getPresent:
-            answer += 1
+        
 
     return answer
