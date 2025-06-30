@@ -32,22 +32,12 @@ def makeTree(edges, n):
 def checkNode(i, cntArr, target, dp):
     return cntArr[i] <= target[i] and cntArr[i] >= dp[target[i]]
 
-
-def checkSequence(cntArr, target, dp):
-    for i in range(len(cntArr)):
-        if cntArr[i] < dp[target[i]]:
-            return False
-
-    return True
-
-
 def getCombination(count, total):
     for p in itertools.combinations_with_replacement([1,2,3], count):
         if sum(p) == total:
             return list(p)
 
     return None
-
 
 # target[i]를 cntArr[i]개의 1,2,3으로 구성한 수열 중,
 # 사전순으로 가장 빠른 수열을 하나만 구하면 됨.
