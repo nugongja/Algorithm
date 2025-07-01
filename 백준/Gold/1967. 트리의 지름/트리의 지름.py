@@ -43,9 +43,11 @@ def solution(N):
 
         p = parent[now]
         
-        if len(max_paths[now]) == children[now]:
-            for tmp in itertools.combinations(max_paths[now], min(children[now], 2)):
-                answer = max(answer, sum(tmp))
+        candidates = sorted(max_paths[now], reverse=True)
+        if len(candidates) >= 2:
+            answer = max(answer, candidates[0] + candidates[1])
+        elif len(candidates) == 1:
+            answer = max(answer, candidates[0])
 
 
         max_paths_to_parent = max(max_paths[now]) + weight_to_parent[now]
