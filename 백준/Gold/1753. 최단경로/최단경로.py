@@ -1,19 +1,19 @@
-
 import sys
 import heapq
+from math import inf
+input = sys.stdin.readline
 
 def solution(V,E,K):
-    answer = [sys.maxsize]*(V+1)
+    answer = [inf]*(V+1)
     graph = [[] for _ in range(V+1)]
 
     for _ in range(E):
-        u, v, w = map(int, sys.stdin.readline().split())
+        u, v, w = map(int, input().split())
         graph[u].append((w, v))
     
 
-    pq = []
-    heapq.heappush(pq, (0, K))
     answer[K] = 0
+    pq = [(0, K)]
 
     while pq:
         cur_dist, cur_node = heapq.heappop(pq)
@@ -27,14 +27,11 @@ def solution(V,E,K):
                 answer[next_node] = next_dist
                 heapq.heappush(pq, (next_dist, next_node))
 
+    for i in range(1, V + 1):
+        print("INF" if answer[i] == inf else answer[i])
     
-    return answer
 
 if __name__ == "__main__":
-    V, E = map(int, sys.stdin.readline().split())
-    K = int(sys.stdin.readline())
-    answer = solution(V,E,K)
-    for i in range(1, V + 1):
-        print("INF" if answer[i] == sys.maxsize else answer[i])
-
-    
+    V, E = map(int, input().split())
+    K = int(input())
+    solution(V,E,K)
