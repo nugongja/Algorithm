@@ -1,40 +1,38 @@
 import sys
-from collections import Counter
+from collections import defaultdict, Counter
 input = sys.stdin.readline
-
-def get_subset_sums(arr):
-    n = len(arr)
-    result = []
-    for bit in range(1 << n):
-        tmp = 0
-        for i in range(n):
-            if bit & (1 << i):
-                tmp += arr[i]
-        result.append(tmp)
-    return result
 
 
 def solution():
     answer = 0
     N, S = map(int, input().split())
 
-    A = sorted(list(map(int, input().split())))
+    A = list(map(int, input().split()))
+    dic = defaultdict(int)
 
-    mid = N // 2
-    left = A[:mid]
-    right = A[mid:]
+    def get_subset_sums(start, end, isLeft):
+        nonlocal answer, dic
+        sums = []
 
-    left_sum = get_subset_sums(left)
-    right_sum = get_subset_sums(right)
-    right_counter = Counter(right_sum)
+        for i in range(start, end):
+            for j in range(len(sums)):
+                sums.append(A[i]+sums[j])
+            sums.append(A[i])
 
-    for val in left_sum:
-        answer += right_counter[S - val]
+  
+        for v in sums:
+            if v == S:
+                answer += 1  # 단독으로 S 만족하는 경우
 
-    if S == 0:
-        answer -= 1
+            if isLeft:
+                dic[v] += 1
+            else:
+                answer += dic[S-v]
 
+    get_subset_sums(0, N//2, True)
+    get_subset_sums(N//2, N, False)
 
+        
     print(answer)
 
 if __name__ == "__main__":
