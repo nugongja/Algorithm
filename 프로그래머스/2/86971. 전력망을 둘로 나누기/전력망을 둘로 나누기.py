@@ -28,7 +28,7 @@ def solution(n, wires):
 
         visited = [False]*(n+1)
         k1 = dfs(v1)
-        k2 = dfs(v2)
+        k2 = n-k1
         answer = min(answer, abs(k1-k2))
 
 
